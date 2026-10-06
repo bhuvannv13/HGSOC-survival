@@ -1,84 +1,65 @@
-# 🎯 Precision Oncology - HGSOC Survival Analysis
+# Precision Oncology: HGSOC Survival Prediction
 
-This repository contains a Jupyter Notebook focused on applying data-driven techniques to analyze **High-Grade Serous Ovarian Cancer (HGSOC)** survival. It leverages SHAP (SHapley Additive exPlanations) to identify important clinical and genomic features contributing to patient outcomes. The dataset is sourced from **BioPortal**.
+Predicting survival in High-Grade Serous Ovarian Cancer (HGSOC) from TCGA clinical and mutation data, using XGBoost with SHAP explanations to show which features drive each prediction.
 
-## 📁 Project Overview
+> Research and learning project. Not intended for clinical decision-making.
 
-This notebook includes:
+## Overview
 
-* Loading and preprocessing of HGSOC clinical and genomic datasets from BioPortal
-* Exploratory Data Analysis (EDA) to understand data distributions and relationships
-* Survival analysis techniques to evaluate prognostic indicators
-* Application of the **XGBoost Classifier** to predict patient survival
-* Use of SHAP to interpret model outputs and highlight important features in ovarian cancer
+The notebook covers:
 
-## 🚀 Getting Started
+- Loading and cleaning TCGA ovarian cancer clinical and mutation data (downloaded from cBioPortal)
+- Exploratory data analysis of clinical and genomic features
+- Building a binary survival target and training an **XGBoost classifier**
+- Hyperparameter tuning with randomised search (5-fold cross-validation, ROC AUC scoring)
+- Model interpretation with **SHAP**: global feature importance and per-patient explanations
 
-### Prerequisites
+## Results
 
-To run the notebook, make sure you have the following installed:
+From the saved notebook outputs, on a held-out test set of 124 patients:
 
-* Python 3.8+
-* Jupyter Notebook or JupyterLab
-* pandas, numpy, matplotlib, seaborn
-* lifelines
-* scikit-learn
-* shap
-* xgboost
+| Metric | Value |
+|---|---|
+| Accuracy | 0.903 |
+| ROC AUC | 0.963 |
+| Macro F1 | 0.90 |
 
-You can install the dependencies using:
+A caveat on these numbers: the feature set includes follow-up variables such as `Disease Free (Months)`, which are only known after the outcome and are closely tied to it. The scores therefore overstate how well survival could be predicted at diagnosis. Removing these columns is the main planned improvement.
+
+## Repository contents
+
+| File | Purpose |
+|---|---|
+| `Precisoncology4 (3).ipynb` | Full analysis notebook |
+| `ov_tcga_clinical_data.tsv` | TCGA ovarian cancer clinical data |
+| `xgb_best_model.joblib`, `xgb_best_model.json` | Trained XGBoost model |
+| `requirements.txt` | Python dependencies |
+
+## Getting started
 
 ```bash
+git clone https://github.com/bhuvannv13/HGSOC-survival.git
+cd HGSOC-survival
 pip install -r requirements.txt
-```
-
-### Running the Notebook
-
-1. Clone the repository
-
-```bash
-git clone https://github.com/yourusername/precision-oncology-hgsoc.git
-cd precision-oncology-hgsoc
-```
-
-2. Launch Jupyter Notebook
-
-```bash
 jupyter notebook
 ```
 
-3. Open and run `Precisoncology4.ipynb`
+Then open `Precisoncology4 (3).ipynb`.
 
-## 📊 Results
+The notebook was written in Google Colab and reads files from Google Drive. To run it locally, update the file paths in the first cells. The mutation file (`data_mutations.txt`) is not included here; download the TCGA ovarian cancer study from [cBioPortal](https://www.cbioportal.org/).
 
-The model outputs include:
+## Loading the trained model
 
-* Survival curves for patient stratification
-* SHAP value plots identifying top features impacting survival predictions
-* Visualizations showing feature relationships and model performance
+```python
+import joblib
+model = joblib.load("xgb_best_model.joblib")
+```
 
-## 🧬 Dataset
+## License
 
-The dataset used in this notebook is publicly available from [BioPortal](https://bioportal.bioontology.org/). It includes clinical and genetic features specific to ovarian cancer.
+MIT. See [LICENSE](LICENSE).
 
-## 🧠 Interpretability
+## Acknowledgements
 
-Model interpretability is a key focus. SHAP is used to provide:
-
-* Global feature importance
-* Local explanation of individual predictions
-
-## 📜 License
-
-This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
-
-## 🤝 Acknowledgements
-
-* [BioPortal](https://bioportal.bioontology.org/)
-* SHAP by Scott Lundberg
-* XGBoost by Tianqi Chen and contributors
-* scikit-learn and Python open-source community
-
----
-
-For questions or contributions, feel free to open an issue or pull request!
+- [cBioPortal](https://www.cbioportal.org/) and The Cancer Genome Atlas (TCGA)
+- [SHAP](https://github.com/shap/shap), [XGBoost](https://github.com/dmlc/xgboost) and scikit-learn
