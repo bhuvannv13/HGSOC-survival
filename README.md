@@ -16,15 +16,17 @@ The notebook covers:
 
 ## Results
 
-From the saved notebook outputs, on a held-out test set of 124 patients:
+From the latest full run of the notebook (GitHub Actions, see `RESULTS.md`), on a held-out test set of 124 patients:
 
 | Metric | Value |
 |---|---|
-| Accuracy | 0.903 |
-| ROC AUC | 0.963 |
-| Macro F1 | 0.90 |
+| Accuracy | 0.782 |
+| ROC AUC | 0.906 |
+| Macro F1 | 0.77 |
 
-A caveat on these numbers: the feature set includes follow-up variables such as `Disease Free (Months)`, which are only known after the outcome and are closely tied to it. The scores therefore overstate how well survival could be predicted at diagnosis. Removing these columns is the main planned improvement.
+An earlier version of the notebook reported 0.903 accuracy and 0.963 AUC. Those figures were inflated by follow-up variables such as `Disease Free (Months)`, which are only known after the outcome. `tools/rerun.py` now drops those columns (and free-text identifiers) before training, and the numbers above come from that run.
+
+Remaining caveat: `Year Cancer Initial Diagnosis` is still a feature. In TCGA, patients diagnosed earlier have had longer follow-up, so this column partly reflects follow-up time rather than biology, and the AUC is likely still optimistic for prediction at diagnosis.
 
 ## Repository contents
 
@@ -32,7 +34,10 @@ A caveat on these numbers: the feature set includes follow-up variables such as 
 |---|---|
 | `Precisoncology4 (3).ipynb` | Full analysis notebook |
 | `ov_tcga_clinical_data.tsv` | TCGA ovarian cancer clinical data |
-| `xgb_best_model.joblib`, `xgb_best_model.json` | Trained XGBoost model |
+| `xgb_best_model.json` | XGBoost model saved by the latest run |
+| `xgb_best_model.joblib` | Model from the earlier run (trained with the follow-up columns; kept for reference) |
+| `tools/rerun.py` | Downloads the data, removes leaked features and reruns the notebook |
+| `RESULTS.md` | Metrics printed by the latest run |
 | `requirements.txt` | Python dependencies |
 
 ## Getting started
@@ -46,13 +51,21 @@ jupyter notebook
 
 Then open `Precisoncology4 (3).ipynb`.
 
-The notebook was written in Google Colab and reads files from Google Drive. To run it locally, update the file paths in the first cells. The mutation file (`data_mutations.txt`) is not included here; download the TCGA ovarian cancer study from [cBioPortal](https://www.cbioportal.org/).
+To reproduce the published run, which downloads the TCGA ovarian cancer study from [cBioPortal](https://www.cbioportal.org/) into `data/` and executes every cell:
+
+```bash
+pip install nbformat nbclient ipykernel
+python tools/rerun.py
+```
+
+The same script can be run from the repository's Actions tab ("Rerun notebook", manual trigger).
 
 ## Loading the trained model
 
 ```python
-import joblib
-model = joblib.load("xgb_best_model.joblib")
+import xgboost as xgb
+model = xgb.XGBClassifier()
+model.load_model("xgb_best_model.json")
 ```
 
 ## License
