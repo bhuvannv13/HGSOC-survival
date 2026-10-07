@@ -1,58 +1,13 @@
 # Results from the latest notebook run
 
 ```
-
-```
-
-## Cells that raised errors
-
-```
-cell 0: HTTPError: HTTP Error 403: Forbidden
-cell 2: FileNotFoundError: [Errno 2] No such file or directory: 'data/ov_tcga/data_mutations.txt'
-cell 4: NameError: name 'mut' is not defined
-cell 5: NameError: name 'mut' is not defined
-cell 6: NameError: name 'mutation_df' is not defined
-cell 7: NameError: name 'mutation_matrix' is not defined
-cell 8: NameError: name 'df3' is not defined
-cell 9: NameError: name 'df3' is not defined
-cell 10: NameError: name 'df3' is not defined
-cell 11: NameError: name 'df3' is not defined
-cell 12: NameError: name 'df3' is not defined
-cell 13: NameError: name 'df3' is not defined
-cell 14: NameError: name 'df3' is not defined
-cell 15: NameError: name 'df3' is not defined
-cell 16: NameError: name 'df3' is not defined
-cell 17: NameError: name 'df3' is not defined
-cell 18: NameError: name 'df3' is not defined
-cell 19: NameError: name 'df3' is not defined
-cell 21: NameError: name 'df3' is not defined
-cell 23: NameError: name 'df3' is not defined
-cell 24: NameError: name 'df3' is not defined
-cell 26: NameError: name 'race_survival_table' is not defined
-cell 29: NameError: name 'df3' is not defined
-cell 30: NameError: name 'df3' is not defined
-cell 31: NameError: name 'df_cleaned' is not defined
-cell 32: NameError: name 'df_cleaned' is not defined
-cell 33: NameError: name 'df3' is not defined
-cell 34: NameError: name 'df_cleaned' is not defined
-cell 35: NameError: name 'df_cleaned' is not defined
-cell 36: NameError: name 'df_cleaned' is not defined
-cell 38: NameError: name 'df_cleaned' is not defined
-cell 39: NameError: name 'df_cleaned' is not defined
-cell 41: NameError: name 'df_cleaned' is not defined
-cell 42: NameError: name 'X_train' is not defined
-cell 43: NameError: name 'df_cleaned' is not defined
-cell 44: NameError: name 'X' is not defined
-cell 45: NameError: name 'features' is not defined
-cell 47: AttributeError: 'RandomizedSearchCV' object has no attribute 'best_estimator_'
-cell 48: NameError: name 'y_test' is not defined
-cell 49: NameError: name 'y_test' is not defined
-cell 50: NameError: name 'model' is not defined
-cell 51: NameError: name 'X' is not defined
-cell 52: NameError: name 'X' is not defined
-cell 53: NameError: name 'X' is not defined
-cell 54: NameError: name 'X' is not defined
-cell 56: NameError: name 'df_cleaned' is not defined
-cell 57: FileNotFoundError: [Errno 2] No such file or directory: 'data/df_cleaned.tsv'
-cell 58: NameError: name 'X' is not defined
+cell 41: Feature columns after removing leakage and identifiers: 10091
+cell 41: Accuracy: 0.7823
+cell 41: AUC: 0.9061
+cell 41:     accuracy                           0.78       124
+cell 41:    macro avg       0.81      0.77      0.77       124
+cell 42: Best parameters: {'subsample': 1.0, 'reg_lambda': 2, 'reg_alpha': 0.1, 'n_estimators': 200, 'max_depth': 7, 'learning_rate': 0.05, 'gamma': 1.0, 'colsample_bytree': 0.8}
+cell 57: Accuracy: 0.7526881720430108
+cell 57:     accuracy                           0.75       186
+cell 57:    macro avg       0.74      0.74      0.74       186
 ```
