@@ -2,11 +2,6 @@ name: Rerun notebook
 
 on:
   workflow_dispatch:
-  push:
-    branches: [Bhuvann13]
-    paths:
-      - tools/rerun.py
-      - .github/workflows/rerun.yml
 
 permissions:
   contents: write
@@ -21,8 +16,6 @@ jobs:
     timeout-minutes: 90
     steps:
       - uses: actions/checkout@v4
-        with:
-          fetch-depth: 0
       - uses: actions/setup-python@v5
         with:
           python-version: "3.11"
@@ -34,13 +27,4 @@ jobs:
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
           git add "Precisoncology4 (3).ipynb" RESULTS.md xgb_best_model.json
           git commit -m "Rerun notebook without leaked features" || echo "nothing to commit"
-          git push
-      - name: Restore the original notebook if the rerun failed
-        if: failure()
-        run: |
-          git config user.name "github-actions[bot]"
-          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git checkout 9007583 -- "Precisoncology4 (3).ipynb"
-          git rm -f --ignore-unmatch RESULTS.md
-          git commit -m "Restore original notebook after failed rerun" || echo "nothing to commit"
           git push
